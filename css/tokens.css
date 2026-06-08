@@ -1,0 +1,94 @@
+/* ╔══════════════════════════════════════════════════╗
+   ║  VORTEX Fit — Design Tokens                      ║
+   ║  Única fonte de verdade para todos os valores    ║
+   ╚══════════════════════════════════════════════════╝ */
+
+:root {
+  /* ── Backgrounds ── */
+  --bg-base:       #0E0E12;
+  --bg-surface:    #16161D;
+  --bg-card:       #1C1C25;
+  --bg-elevated:   #22222D;
+  --bg-input:      #13131A;
+
+  /* ── The Vortex Gradient ── */
+  --color-primary:  #FF5A1F;
+  --color-accent:   #FF2D78;
+  --grad-vortex:    linear-gradient(135deg, #FF5A1F 0%, #FF2D78 100%);
+  --grad-vortex-h:  linear-gradient(90deg, #FF5A1F 0%, #FF2D78 100%);
+  --glow-vortex:    0 0 24px rgba(255,90,31,.35), 0 0 48px rgba(255,45,120,.18);
+  --glow-vortex-sm: 0 0 12px rgba(255,90,31,.30);
+
+  /* ── Semantic Colors ── */
+  --color-success:   #A8FF60;
+  --color-success-bg: rgba(168,255,96,.10);
+  --color-warning:   #FFD060;
+  --color-error:     #FF4D6D;
+  --glow-success:    0 0 20px rgba(168,255,96,.30);
+
+  /* ── Text ── */
+  --text-primary:   #F4F4F6;
+  --text-secondary: #9A9AA8;
+  --text-disabled:  #4A4A5A;
+  --text-inverse:   #0E0E12;
+
+  /* ── Borders ── */
+  --border-subtle:  rgba(255,255,255,.06);
+  --border-default: rgba(255,255,255,.10);
+  --border-strong:  rgba(255,255,255,.18);
+  --border-primary: rgba(255,90,31,.35);
+  --border-success: rgba(168,255,96,.30);
+
+  /* ── Shadows ── */
+  --shadow-card:   0 4px 24px rgba(0,0,0,.45);
+  --shadow-modal:  0 8px 48px rgba(0,0,0,.65);
+  --shadow-btn:    0 2px 12px rgba(0,0,0,.30);
+
+  /* ── Border Radius ── */
+  --radius-xs:   6px;
+  --radius-sm:   8px;
+  --radius-md:  12px;
+  --radius-lg:  16px;
+  --radius-xl:  20px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+
+  /* ── Spacing (base 4px) ── */
+  --s1:  4px;   --s2:  8px;   --s3: 12px;
+  --s4: 16px;   --s5: 20px;   --s6: 24px;
+  --s7: 28px;   --s8: 32px;   --s10: 40px;
+  --s12: 48px;  --s16: 64px;
+
+  /* ── Typography ── */
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body:    'Inter', sans-serif;
+
+  --text-xs:   11px;
+  --text-sm:   13px;
+  --text-base: 15px;
+  --text-lg:   17px;
+  --text-xl:   20px;
+  --text-2xl:  24px;
+  --text-3xl:  30px;
+  --text-4xl:  38px;
+  --text-hero: 52px;
+
+  /* ── Motion ── */
+  --ease-expo:   cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-in:     cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:    cubic-bezier(0, 0, 0.2, 1);
+
+  --dur-fast:   120ms;
+  --dur-base:   250ms;
+  --dur-slow:   400ms;
+  --dur-xslow:  700ms;
+
+  /* ── Layout ── */
+  --tab-bar-h:   68px;
+  --header-h:    56px;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top:    env(safe-area-inset-top, 0px);
+  --screen-max:  430px;
+  --page-px:     var(--s5);
+}

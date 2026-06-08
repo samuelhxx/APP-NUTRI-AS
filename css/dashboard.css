@@ -1,0 +1,280 @@
+/* ── Dashboard / Hoje ── */
+
+.dashboard-header {
+  padding: calc(var(--safe-top) + var(--s5)) var(--page-px) var(--s4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+}
+
+.dashboard-greeting {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dashboard-greeting__date {
+  font-size: var(--text-xs);
+  color: var(--text-disabled);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.dashboard-greeting__name {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.dashboard-greeting__sub {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+/* ── Kcal summary strip ── */
+.kcal-strip {
+  margin: 0 var(--page-px);
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--s4) var(--s5);
+}
+
+.kcal-strip__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: var(--s3);
+}
+
+.kcal-strip__consumed {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+
+.kcal-strip__target {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.kcal-strip__bar {
+  height: 8px;
+  background: var(--border-subtle);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.kcal-strip__bar-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: var(--grad-vortex);
+  transition: width var(--dur-slow) var(--ease-expo);
+  max-width: 100%;
+}
+
+.kcal-strip__bar-fill--over {
+  background: var(--color-error);
+}
+
+/* ── Macro rings trio ── */
+.macro-trio {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s3);
+  margin: 0 var(--page-px);
+}
+
+.macro-ring-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--s4) var(--s3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s3);
+}
+
+.macro-ring-card__ring-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.macro-ring-card__ring-wrap svg {
+  transform: rotate(-90deg);
+}
+
+.macro-ring-card__center {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.macro-ring-card__value {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--text-primary);
+}
+
+.macro-ring-card__unit {
+  font-size: 9px;
+  color: var(--text-disabled);
+  font-weight: 600;
+}
+
+.macro-ring-card__label {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+}
+
+.macro-ring-card__progress {
+  font-size: 10px;
+  color: var(--text-disabled);
+  text-align: center;
+}
+
+/* ── Training card ── */
+.training-card {
+  margin: 0 var(--page-px);
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--s5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+}
+
+.training-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.training-card__label {
+  font-size: var(--text-xs);
+  color: var(--text-disabled);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.training-card__title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.training-card__rest {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  color: var(--text-secondary);
+}
+
+.training-card__rest-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-disabled);
+}
+
+.training-card__rest-text {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+}
+
+.training-card__checkin {
+  display: flex;
+  gap: var(--s2);
+}
+
+/* ── Quick add FAB ── */
+.quick-add-fab {
+  position: fixed;
+  bottom: calc(var(--tab-bar-h) + var(--safe-bottom) + var(--s4));
+  right: calc(50% - var(--screen-max) / 2 + var(--s5));
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--grad-vortex);
+  box-shadow: 0 4px 20px rgba(255,90,31,.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  z-index: 50;
+  transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast);
+}
+
+.quick-add-fab:active {
+  transform: scale(0.93);
+  box-shadow: 0 2px 10px rgba(255,90,31,.35);
+}
+
+@media (max-width: 430px) {
+  .quick-add-fab {
+    right: var(--s5);
+  }
+}
+
+/* ── Day log list ── */
+.day-log {
+  margin: 0 var(--page-px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+
+.day-log-item {
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+  padding: var(--s3) var(--s4);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.day-log-item__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.day-log-item__name {
+  flex: 1;
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.day-log-item__kcal {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text-secondary);
+}
