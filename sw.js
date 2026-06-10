@@ -1,6 +1,6 @@
-/* ── VORTEX Fit v2 Service Worker ── */
+/* ── VORTEX Fit v3 Service Worker ── */
 
-const CACHE_V = 'vortex-v2';
+const CACHE_V = 'vortex-v3';
 
 const SHELL = [
   './',
@@ -14,12 +14,14 @@ const SHELL = [
   './css/alimentacao.css',
   './css/treinos.css',
   './css/meta.css',
+  './css/perfil.css',
   './js/main.js',
   './js/store.js',
   './js/utils.js',
   './js/tabs/alimentacao.js',
   './js/tabs/treinos.js',
   './js/tabs/meta.js',
+  './js/tabs/perfil.js',
 ];
 
 self.addEventListener('install', event => {
