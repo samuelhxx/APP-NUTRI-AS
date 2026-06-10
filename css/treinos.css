@@ -1,0 +1,229 @@
+/* ── Aba Treinos ── */
+
+.tr-content {
+  padding: var(--s5) var(--page-px) var(--s8);
+}
+
+/* KPI summary */
+.tr-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s2);
+  margin-bottom: var(--s6);
+}
+
+.tr-kpi {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--s4) var(--s3);
+  text-align: center;
+}
+
+.tr-kpi-val {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.tr-kpi-label {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  margin-top: var(--s1);
+  font-weight: 600;
+}
+
+/* Calendar header */
+.tr-cal-header {
+  display: grid;
+  grid-template-columns: 40px 1fr 40px;
+  align-items: center;
+  gap: var(--s2);
+  margin-bottom: var(--s4);
+}
+
+.tr-month-label {
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.tr-nav-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--dur-fast);
+}
+
+.tr-nav-btn:active {
+  background: var(--bg-elevated);
+  color: var(--color-primary);
+}
+
+/* Weekday labels */
+.tr-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--s1);
+  margin-bottom: var(--s2);
+}
+
+.tr-weekdays > div {
+  text-align: center;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--text-disabled);
+  padding: var(--s1);
+}
+
+/* Calendar grid */
+.tr-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--s1);
+  margin-bottom: var(--s4);
+}
+
+.tr-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  transition: all var(--dur-fast);
+  user-select: none;
+}
+
+.tr-day:active:not(.tr-day--future):not(.tr-day--empty) {
+  transform: scale(0.93);
+}
+
+.tr-day--empty {
+  background: transparent;
+  border-color: transparent;
+  cursor: default;
+  pointer-events: none;
+}
+
+.tr-day--future {
+  opacity: 0.25;
+  cursor: default;
+  pointer-events: none;
+}
+
+.tr-day--today {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.tr-day--checked {
+  background: rgba(168,255,96,.15);
+  border-color: rgba(168,255,96,.40);
+  color: var(--color-success);
+  font-weight: 700;
+}
+
+.tr-cardio-pin {
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-primary);
+}
+
+/* Legend */
+.tr-legend {
+  display: flex;
+  gap: var(--s4);
+  margin-bottom: var(--s3);
+  flex-wrap: wrap;
+}
+
+.tr-legend-item {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tr-legend-checked { color: var(--color-success); }
+.tr-legend-today   { color: var(--color-primary); }
+.tr-legend-cardio  { color: var(--color-primary); }
+
+.tr-note {
+  font-size: var(--text-xs);
+  color: var(--text-disabled);
+  text-align: center;
+  padding: var(--s2) 0;
+}
+
+/* Check-in sheet content */
+.tr-sheet-date {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--s5);
+  font-weight: 500;
+}
+
+.tr-slider-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--s2);
+}
+
+.tr-dur-val {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-base);
+  color: var(--color-primary);
+}
+
+.tr-cardio-toggle {
+  display: flex;
+  background: var(--bg-input);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 3px;
+  gap: 3px;
+}
+
+.tr-ctog-opt {
+  flex: 1;
+  text-align: center;
+  padding: var(--s3) var(--s4);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  font-family: var(--font-display);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--dur-fast);
+  user-select: none;
+}
+
+.tr-ctog-opt.sel {
+  background: var(--grad-vortex);
+  color: #fff;
+}

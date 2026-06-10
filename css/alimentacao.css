@@ -1,0 +1,290 @@
+/* ── Aba Alimentação ── */
+
+/* Macro result cards */
+.al-macros {
+  display: grid;
+  gap: var(--s3);
+}
+
+.al-macro-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--s4);
+}
+
+.al-macro-kcal {
+  border-color: rgba(255,90,31,.25);
+  background: rgba(255,90,31,.05);
+}
+
+.al-macro-val {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.al-macro-unit {
+  font-size: var(--text-xl);
+  font-weight: 600;
+}
+
+.al-macro-name {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-top: var(--s2);
+}
+
+.al-macro-desc {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  margin-top: 3px;
+  line-height: 1.5;
+}
+
+/* Portions */
+.al-portions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+
+.al-portion-row {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--s4);
+}
+
+.al-portion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--s3);
+}
+
+.al-portion-name {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.al-remove-btn {
+  font-size: var(--text-sm);
+  color: var(--text-disabled);
+  padding: var(--s1) var(--s2);
+  border-radius: var(--radius-sm);
+  transition: color var(--dur-fast);
+}
+
+.al-remove-btn:hover { color: var(--color-error); }
+
+.al-slider-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--s2);
+}
+
+.al-slider-val {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-base);
+  color: var(--color-primary);
+}
+
+.al-slider {
+  width: 100%;
+  margin-bottom: var(--s2);
+}
+
+.al-portion-macros {
+  display: flex;
+  gap: var(--s4);
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  margin-top: var(--s2);
+}
+
+/* Marmita total */
+.al-marmita-total {
+  background: rgba(255,90,31,.06);
+  border: 1px solid rgba(255,90,31,.18);
+  border-radius: var(--radius-md);
+  padding: var(--s4);
+  margin-top: var(--s3);
+}
+
+.al-total-label {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--s2);
+}
+
+.al-total-summary {
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  line-height: 1.7;
+  margin-bottom: var(--s3);
+}
+
+.al-total-macros {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--s2);
+}
+
+.al-mpill {
+  text-align: center;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+  padding: var(--s2);
+  border: 1px solid var(--border-subtle);
+}
+
+.al-mpill-val {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+
+.al-mpill-key {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+}
+
+/* Shopping list */
+.al-shopping {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+
+.al-shop-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--s3) var(--s4);
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+}
+
+.al-shop-name {
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+}
+
+.al-shop-right {
+  text-align: right;
+}
+
+.al-shop-qty {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  color: var(--color-primary);
+}
+
+.al-shop-cost {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+}
+
+.al-shop-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--s4);
+  background: var(--bg-card);
+  border: 1px solid rgba(168,255,96,.25);
+  border-radius: var(--radius-md);
+  margin-top: var(--s2);
+}
+
+.al-shop-total span:first-child {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.al-shop-total-val {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 800;
+  color: var(--color-success);
+}
+
+.al-shop-note {
+  font-size: var(--text-xs);
+  color: var(--text-disabled);
+  text-align: center;
+  margin-top: var(--s2);
+}
+
+/* Bank sheet (rendered inside openSheet) */
+.al-bank-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  max-height: 55vh;
+  overflow-y: auto;
+}
+
+.al-bank-row {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3) var(--s4);
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+}
+
+.al-bank-info { flex: 1; min-width: 0; }
+
+.al-bank-name {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.al-bank-macros {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.al-bank-btn {
+  flex-shrink: 0;
+  padding: var(--s2) var(--s3);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  font-family: var(--font-display);
+  border: 1px solid var(--border-default);
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--dur-fast);
+  white-space: nowrap;
+}
+
+.al-bank-btn.sel {
+  background: rgba(168,255,96,.12);
+  border-color: rgba(168,255,96,.30);
+  color: var(--color-success);
+}

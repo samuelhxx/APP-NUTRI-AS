@@ -1,247 +1,99 @@
 /* ── Store — única interface com localStorage ── */
 
-import { uuid, deepClone, deepMerge } from './utils.js';
+const KEY = 'vortex_v2';
+const VERSION = 1;
 
-const STORAGE_KEY    = 'vortex_fit_state';
-const SCHEMA_VERSION = 3;
-
-let _state = null;
-
-/* ─── Seed de ingredientes (valores por 100g, fonte: TACO/USDA) ─── */
-const SEED_INGREDIENTS = [
-  { name:'Peito de Frango Grelhado',  category:'protein',   per_100g:{kcal:165,protein_g:31,fat_g:3.6,carbs_g:0,fiber_g:0},   default_portion_g:150, price_per_kg:22 },
-  { name:'Patinho Moído Cozido',       category:'protein',   per_100g:{kcal:219,protein_g:28,fat_g:12,carbs_g:0,fiber_g:0},    default_portion_g:120, price_per_kg:28 },
-  { name:'Ovo Inteiro Cozido',         category:'protein',   per_100g:{kcal:155,protein_g:13,fat_g:11,carbs_g:1.1,fiber_g:0},  default_portion_g:60,  price_per_kg:15 },
-  { name:'Atum em Água (escorrido)',   category:'protein',   per_100g:{kcal:116,protein_g:26,fat_g:1,carbs_g:0,fiber_g:0},     default_portion_g:100, price_per_kg:35 },
-  { name:'Filé de Tilápia Grelhado',  category:'protein',   per_100g:{kcal:128,protein_g:26,fat_g:2.7,carbs_g:0,fiber_g:0},   default_portion_g:150, price_per_kg:25 },
-  { name:'Arroz Branco Cozido',        category:'carb',      per_100g:{kcal:128,protein_g:2.5,fat_g:0.2,carbs_g:28,fiber_g:0.3}, default_portion_g:150, price_per_kg:5 },
-  { name:'Arroz Integral Cozido',      category:'carb',      per_100g:{kcal:124,protein_g:2.6,fat_g:1,carbs_g:26,fiber_g:1.8},   default_portion_g:150, price_per_kg:6 },
-  { name:'Batata-Doce Cozida',         category:'carb',      per_100g:{kcal:86,protein_g:1.6,fat_g:0.1,carbs_g:20,fiber_g:2.5},  default_portion_g:150, price_per_kg:7 },
-  { name:'Feijão Carioca Cozido',      category:'carb',      per_100g:{kcal:76,protein_g:4.8,fat_g:0.5,carbs_g:13.6,fiber_g:8.4}, default_portion_g:100, price_per_kg:8 },
-  { name:'Lentilha Cozida',            category:'carb',      per_100g:{kcal:116,protein_g:9,fat_g:0.4,carbs_g:20,fiber_g:7.9},   default_portion_g:100, price_per_kg:9 },
-  { name:'Aveia em Flocos',            category:'carb',      per_100g:{kcal:389,protein_g:17,fat_g:7,carbs_g:66,fiber_g:10},     default_portion_g:40,  price_per_kg:8 },
-  { name:'Macarrão Integral Cozido',   category:'carb',      per_100g:{kcal:124,protein_g:5.3,fat_g:0.5,carbs_g:26,fiber_g:3.9}, default_portion_g:150, price_per_kg:7 },
-  { name:'Azeite de Oliva',            category:'fat',       per_100g:{kcal:884,protein_g:0,fat_g:100,carbs_g:0,fiber_g:0},      default_portion_g:10,  price_per_kg:40 },
-  { name:'Abacate',                    category:'fat',       per_100g:{kcal:160,protein_g:2,fat_g:15,carbs_g:9,fiber_g:6.7},     default_portion_g:80,  price_per_kg:12 },
-  { name:'Amendoim Tostado',           category:'fat',       per_100g:{kcal:585,protein_g:25,fat_g:50,carbs_g:16,fiber_g:8},     default_portion_g:30,  price_per_kg:15 },
-  { name:'Brócolis Cozido',            category:'vegetable', per_100g:{kcal:35,protein_g:2.4,fat_g:0.4,carbs_g:7,fiber_g:2.6},   default_portion_g:100, price_per_kg:8 },
-  { name:'Espinafre Refogado',         category:'vegetable', per_100g:{kcal:29,protein_g:2.9,fat_g:0.5,carbs_g:3.6,fiber_g:2.2}, default_portion_g:80,  price_per_kg:6 },
-  { name:'Tomate Cru',                 category:'vegetable', per_100g:{kcal:18,protein_g:0.9,fat_g:0.2,carbs_g:3.9,fiber_g:1.2}, default_portion_g:100, price_per_kg:5 },
-  { name:'Alface Crespa',              category:'vegetable', per_100g:{kcal:14,protein_g:1.3,fat_g:0.2,carbs_g:2.2,fiber_g:1.5}, default_portion_g:60,  price_per_kg:4 },
-  { name:'Banana Prata',               category:'fruit',     per_100g:{kcal:89,protein_g:1.1,fat_g:0.3,carbs_g:23,fiber_g:2.6},  default_portion_g:100, price_per_kg:4 },
-  { name:'Maçã com Casca',             category:'fruit',     per_100g:{kcal:52,protein_g:0.3,fat_g:0.2,carbs_g:14,fiber_g:2.4},  default_portion_g:150, price_per_kg:6 },
+const SEED = [
+  { id:'frango',    name:'Frango (peito grelhado)',  protein_g:31,  carbs_g:0,   fat_g:3.6, kcal:165, price_per_kg:22 },
+  { id:'patinho',   name:'Patinho moído cozido',     protein_g:26,  carbs_g:0,   fat_g:9,   kcal:190, price_per_kg:28 },
+  { id:'ovo',       name:'Ovo inteiro cozido',       protein_g:13,  carbs_g:1.1, fat_g:11,  kcal:155, price_per_kg:15 },
+  { id:'atum',      name:'Atum em água (escorrido)', protein_g:26,  carbs_g:0,   fat_g:1,   kcal:116, price_per_kg:35 },
+  { id:'tilapia',   name:'Filé de tilápia grelhado', protein_g:26,  carbs_g:0,   fat_g:2.7, kcal:128, price_per_kg:25 },
+  { id:'arroz',     name:'Arroz branco cozido',      protein_g:2.5, carbs_g:28,  fat_g:0.2, kcal:128, price_per_kg:5  },
+  { id:'arroz_int', name:'Arroz integral cozido',    protein_g:2.6, carbs_g:26,  fat_g:1,   kcal:124, price_per_kg:6  },
+  { id:'batata',    name:'Batata-doce cozida',       protein_g:1.6, carbs_g:20,  fat_g:0.1, kcal:86,  price_per_kg:7  },
+  { id:'feijao',    name:'Feijão carioca cozido',    protein_g:4.8, carbs_g:13.6,fat_g:0.5, kcal:76,  price_per_kg:8  },
+  { id:'aveia',     name:'Aveia em flocos',           protein_g:17,  carbs_g:66,  fat_g:7,   kcal:389, price_per_kg:8  },
+  { id:'azeite',    name:'Azeite de oliva',           protein_g:0,   carbs_g:0,   fat_g:100, kcal:884, price_per_kg:40 },
+  { id:'brocolis',  name:'Brócolis cozido',           protein_g:2.4, carbs_g:7,   fat_g:0.4, kcal:35,  price_per_kg:8  },
+  { id:'espinafre', name:'Espinafre refogado',        protein_g:2.9, carbs_g:3.6, fat_g:0.5, kcal:29,  price_per_kg:6  },
+  { id:'tomate',    name:'Tomate cru',                protein_g:0.9, carbs_g:3.9, fat_g:0.2, kcal:18,  price_per_kg:5  },
+  { id:'banana',    name:'Banana prata',              protein_g:1.1, carbs_g:23,  fat_g:0.3, kcal:89,  price_per_kg:4  },
 ];
 
-/* ─── Migrations ─── */
-const MIGRATIONS = {
-  // v1 → v2: noop (versão inicial)
-  1: (s) => s,
-  // v2 → v3: adiciona meal_log e marmita_config a usuários legados
-  2: (s) => {
-    for (const uid of Object.keys(s.users || {})) {
-      s.users[uid].meal_log = s.users[uid].meal_log || [];
-      s.users[uid].marmita_config = s.users[uid].marmita_config || { meals_per_week: 5, people: 1 };
-    }
-    return s;
+const EMPTY = {
+  schema_version: VERSION,
+  profile: { name:'', age:25, sex:'M', weight_kg:80, height_cm:175, activity_level:'moderate', goal:'cut' },
+  targets: null,
+  ingredient_bank: SEED.map(s => ({ ...s })),
+  meal_config: {
+    marmitas_per_week: 5,
+    people: 1,
+    portions: [
+      { ingredient_id:'frango',   grams:200 },
+      { ingredient_id:'arroz',    grams:150 },
+      { ingredient_id:'brocolis', grams:100 },
+    ],
   },
+  checkins: [],
+  weight_log: [],
+  goal_target: { target_weight_kg:null, deadline_date:null },
 };
 
-function runMigrations(state) {
-  let v = state.schema_version || 1;
-  while (v < SCHEMA_VERSION) {
-    if (MIGRATIONS[v]) state = MIGRATIONS[v](state);
-    v++;
-  }
-  state.schema_version = SCHEMA_VERSION;
-  return state;
-}
-
-function seedIngredients(bank) {
-  for (const item of SEED_INGREDIENTS) {
-    const exists = Object.values(bank).some(b => b.name === item.name);
-    if (!exists) {
-      const id = uuid();
-      bank[id] = { id, ...item, is_custom: false, created_at: new Date().toISOString() };
+function load() {
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (!raw) return clone(EMPTY);
+    const parsed = JSON.parse(raw);
+    /* Ensure seed ingredients exist even on old saves */
+    if (!Array.isArray(parsed.ingredient_bank)) parsed.ingredient_bank = clone(SEED);
+    for (const seed of SEED) {
+      if (!parsed.ingredient_bank.find(i => i.id === seed.id)) {
+        parsed.ingredient_bank.push({ ...seed });
+      }
     }
-  }
-  return bank;
-}
-
-/* ─── Public API ─── */
-
-export function initStore() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    _state = raw ? JSON.parse(raw) : null;
-  } catch (_) {
-    _state = null;
-  }
-
-  if (!_state || !_state.schema_version) {
-    _state = {
-      schema_version: SCHEMA_VERSION,
-      active_user_id: null,
-      users: {},
-      ingredient_bank: {},
-      app_meta: {
-        install_date: new Date().toISOString(),
-        last_opened:  new Date().toISOString(),
-        onboarding_completed: false,
-      },
-    };
-  } else {
-    _state = runMigrations(_state);
-  }
-
-  _state.ingredient_bank = seedIngredients(_state.ingredient_bank);
-  _state.app_meta.last_opened = new Date().toISOString();
-  _persist();
-}
-
-export function getState() {
-  return _state;
-}
-
-export function setState(patch) {
-  _state = deepMerge(_state, patch);
-  _persist();
-  document.dispatchEvent(new CustomEvent('vortex:storechange'));
-}
-
-function _persist() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(_state));
-  } catch (e) {
-    console.warn('[store] localStorage cheio ou bloqueado', e);
+    return { ...clone(EMPTY), ...parsed, schema_version: VERSION };
+  } catch {
+    return clone(EMPTY);
   }
 }
 
-/* ── User helpers ── */
+function clone(o) { return JSON.parse(JSON.stringify(o)); }
 
-export function getUser(userId) {
-  return _state.users[userId] || null;
+function save(s) {
+  try { localStorage.setItem(KEY, JSON.stringify(s)); } catch { /* silent */ }
 }
 
-export function updateUser(userId, patch) {
-  if (!_state.users[userId]) return;
-  _state.users[userId] = deepMerge(_state.users[userId], patch);
-  _persist();
+let _s = load();
+
+export function getState()         { return clone(_s); }
+export function getRaw()           { return _s; }          /* read-only, no clone */
+
+export function updateProfile(p)   { _s.profile = { ..._s.profile, ...p }; save(_s); }
+export function updateTargets(t)   { _s.targets = t; save(_s); }
+export function updateMealConfig(c){ _s.meal_config = { ..._s.meal_config, ...c }; save(_s); }
+export function updateGoalTarget(g){ _s.goal_target = { ..._s.goal_target, ...g }; save(_s); }
+
+export function addCheckin(c) {
+  _s.checkins = _s.checkins.filter(x => x.date !== c.date);
+  _s.checkins.push(c);
+  save(_s);
+}
+export function removeCheckin(date) { _s.checkins = _s.checkins.filter(x => x.date !== date); save(_s); }
+
+export function addWeightEntry(date, weight_kg) {
+  _s.weight_log = _s.weight_log.filter(e => e.date !== date);
+  _s.weight_log.push({ date, weight_kg: +weight_kg });
+  _s.weight_log.sort((a,b) => a.date.localeCompare(b.date));
+  save(_s);
 }
 
-export function createUser(profile) {
-  const id = uuid();
-  const avatarColors = ['#FF5A1F', '#60A8FF', '#A8FF60'];
-  const idx = Object.keys(_state.users).length % avatarColors.length;
-
-  _state.users[id] = {
-    id,
-    created_at: new Date().toISOString(),
-    profile: {
-      ...profile,
-      avatar_color: avatarColors[idx],
-    },
-    targets:       { kcal: 0, protein_g: 0, fat_g: 0, carbs_g: 0, calculated_at: '' },
-    weight_log:    [],
-    checkins:      [],
-    meal_log:      [],
-    marmita_config: { meals_per_week: 5, people: 1 },
-    settings:      { units: 'metric', theme_override: 'auto' },
-  };
-
-  _state.active_user_id = id;
-  _persist();
-  return id;
+export function addIngredient(ing) {
+  _s.ingredient_bank.push(ing);
+  save(_s);
 }
-
-export function getUserList() {
-  return Object.values(_state.users);
-}
-
-export function setActiveUserId(userId) {
-  _state.active_user_id = userId;
-  _persist();
-}
-
-/* ── Check-in helpers ── */
-
-export function addCheckin(userId, checkin) {
-  const user = _state.users[userId];
-  if (!user) return;
-  // Remove existing checkin for same date
-  user.checkins = user.checkins.filter(c => c.date !== checkin.date);
-  user.checkins.push({ id: uuid(), ...checkin, created_at: new Date().toISOString() });
-  _persist();
-}
-
-export function getCheckin(userId, date) {
-  return _state.users[userId]?.checkins.find(c => c.date === date) || null;
-}
-
-export function getCheckins(userId, yearMonth) {
-  return (_state.users[userId]?.checkins || []).filter(c => c.date.startsWith(yearMonth));
-}
-
-/* ── Weight log helpers ── */
-
-export function addWeightEntry(userId, date, weight_kg) {
-  const user = _state.users[userId];
-  if (!user) return;
-  user.weight_log = user.weight_log.filter(e => e.date !== date);
-  user.weight_log.push({ date, weight_kg: Number(weight_kg) });
-  user.weight_log.sort((a, b) => a.date.localeCompare(b.date));
-  _persist();
-}
-
-/* ── Meal log helpers ── */
-
-export function addMealLog(userId, meal) {
-  const user = _state.users[userId];
-  if (!user) return;
-  user.meal_log.push({ id: uuid(), ...meal, logged_at: new Date().toISOString() });
-  _persist();
-}
-
-export function getMealLog(userId, date) {
-  return (_state.users[userId]?.meal_log || []).filter(m => m.date === date);
-}
-
-export function deleteMealLog(userId, mealId) {
-  const user = _state.users[userId];
-  if (!user) return;
-  user.meal_log = user.meal_log.filter(m => m.id !== mealId);
-  _persist();
-}
-
-/* ── Ingredient bank helpers ── */
-
-export function getIngredientBank() {
-  return Object.values(_state.ingredient_bank);
-}
-
-export function getIngredient(id) {
-  return _state.ingredient_bank[id] || null;
-}
-
-export function upsertIngredient(ingredient) {
-  const id = ingredient.id || uuid();
-  _state.ingredient_bank[id] = { ...ingredient, id, is_custom: true, updated_at: new Date().toISOString() };
-  _persist();
-  return id;
-}
-
 export function deleteIngredient(id) {
-  delete _state.ingredient_bank[id];
-  _persist();
-}
-
-/* ── Marmita config ── */
-
-export function getMarmitaConfig(userId) {
-  return _state.users[userId]?.marmita_config || { meals_per_week: 5, people: 1 };
-}
-
-export function setMarmitaConfig(userId, config) {
-  if (!_state.users[userId]) return;
-  _state.users[userId].marmita_config = { ..._state.users[userId].marmita_config, ...config };
-  _persist();
+  _s.ingredient_bank = _s.ingredient_bank.filter(i => i.id !== id);
+  _s.meal_config.portions = _s.meal_config.portions.filter(p => p.ingredient_id !== id);
+  save(_s);
 }
